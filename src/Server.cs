@@ -8,10 +8,17 @@ Console.WriteLine("Logs from your program will appear here!");
 // Uncomment this block to pass the first stage
 var server = new TcpListener(IPAddress.Any, 6379);
 server.Start();
-var socket = server.AcceptSocket(); // wait for client
 const string response = "+PONG\r\n";
-var bytes = Encoding.ASCII.GetBytes(response);
-while (true)
+var responseBytes = Encoding.ASCII.GetBytes(response);
+
+
+var client = server.AcceptTcpClient(); // wait for client
+var stream = client.GetStream();
+
+var buffer = new byte[256];
+while (stream.Read(buffer, 0, buffer.Length) != 0)
 {
-    socket.Send(bytes);
+    stream.Write(responseBytes);
 }
+
+client.Close();
