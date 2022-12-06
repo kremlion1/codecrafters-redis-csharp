@@ -9,6 +9,6 @@ Console.WriteLine("Logs from your program will appear here!");
 var server = new TcpListener(IPAddress.Any, 6379);
 server.Start();
 var socket = server.AcceptSocket(); // wait for client
-const string response = "+OK\\r\\n";
+const string response = "+PONG\r\n";
 var bytes = Encoding.ASCII.GetBytes(response);
 socket.Send(bytes);
